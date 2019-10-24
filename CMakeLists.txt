@@ -2,7 +2,13 @@ cmake_minimum_required (VERSION 2.6)
 
 find_package(PkgConfig)
 
-project(OpenSiv3D CXX) # プロジェクト名をここに書く
+set(MY_PROJECT_NAME OpenSiv3D)
+if (APPLE)
+  project(${MY_PROJECT_NAME}.app CXX)
+elseif (UNIX)
+  project(${MY_PROJECT_NAME} CXX)
+endif (APPLE)
+
 enable_language(C)
 
 # 基本構成 {{{
@@ -67,10 +73,13 @@ if (APPLE)
     ${PROJECT_SOURCE_DIR}/lib/macOS/libwebp
     ${PROJECT_SOURCE_DIR}/lib/macOS/opencv
     ${PROJECT_SOURCE_DIR}/lib/macOS/zlib
+    ${PROJECT_SOURCE_DIR}/lib/macOS/libvorbis
+    ${PROJECT_SOURCE_DIR}/lib/macOS/libogg
+    ${PROJECT_SOURCE_DIR}/lib/macOS/libgif
     )
 
-  set(APP_PROJECT_NAME ${PROJECT_NAME})
-  set(EXECUTABLE_NAME ${PROJECT_NAME})
+  set(APP_PROJECT_NAME ${MY_PROJECT_NAME})
+  set(EXECUTABLE_NAME ${MY_PROJECT_NAME})
   set(PRODUCT_BUNDLE_IDENTIFIER "com.example")
   set(MACOSX_DEPLOYMENT_TARGET "10.14")
 
@@ -80,15 +89,15 @@ if (APPLE)
     MACOSX_PACKAGE_LOCATION "Resources"
     )
 
-  add_executable(${PROJECT_NAME} MACOSX_BUNDLE ${SOURCE_FILES} ${PROJECT_SOURCE_DIR}/icon.icns)
+  add_executable(${MY_PROJECT_NAME} MACOSX_BUNDLE ${SOURCE_FILES} ${PROJECT_SOURCE_DIR}/icon.icns)
 
-  add_custom_command(TARGET ${PROJECT_NAME} PRE_BUILD
-    COMMAND cp -r ${PROJECT_SOURCE_DIR}/engine ${PROJECT_NAME}.app/Contents/Resources
+  add_custom_command(TARGET ${MY_PROJECT_NAME} PRE_BUILD
+    COMMAND cp -r ${PROJECT_SOURCE_DIR}/engine ${MY_PROJECT_NAME}.app/Contents/Resources
     )
 
-  set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_INFO_PLIST ${PROJECT_SOURCE_DIR}/Info-CMake.plist)
+  set_target_properties(${MY_PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_INFO_PLIST ${PROJECT_SOURCE_DIR}/Info-CMake.plist)
 
-  target_link_libraries(${PROJECT_NAME}
+  target_link_libraries(${MY_PROJECT_NAME}
     ${AudioToolbox_LIBRARY}
     ${OpenGL_LIBRARY}
     ${OpenAL_LIBRARY}
@@ -106,10 +115,16 @@ if (APPLE)
     -lfreetype
     -lharfbuzz
     -lpng
+    -lvorbis
+    -lvorbisenc
+    -lvorbisfile
     -lturbojpeg
+    -logg
     -lwebp
     -lboost_filesystem
     -lz
+    -lgif
+    -lutil
 
     -lSiv3D
     )
@@ -123,9 +138,9 @@ elseif (UNIX)
     ${PROJECT_SOURCE_DIR}/lib/Linux
     )
 
-  add_executable(${PROJECT_NAME} ${SOURCE_FILES})
+  add_executable(${MY_PROJECT_NAME} ${SOURCE_FILES})
 
-  target_link_libraries(${PROJECT_NAME}
+  target_link_libraries(${MY_PROJECT_NAME}
     ${OPENCV4_LIBRARIES}
     -lOpenGL
     -lGLEW
