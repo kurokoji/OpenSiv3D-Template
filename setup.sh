@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CURRENT_VERSION='0.4.1'
+source ./version
 
 if [ "$(uname)" = 'Darwin' ]; then
   OS='Mac'
@@ -23,7 +23,7 @@ if [ "${OS}" = 'Mac' ]; then
   rm "./siv3d_v${CURRENT_VERSION}_macOS.zip"
 
 elif [ "${OS}" = 'Linux' ]; then
-  echo 'hoge'
+  echo 'Not support'
 else
-  echo 'hoge'
+  echo 'Not support'
 fi
