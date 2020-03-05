@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CURRENT_VERSION='0.4.1'
+source ./version
 
 if [ "$(uname)" = 'Darwin' ]; then
   OS='Mac'
@@ -20,7 +20,7 @@ if [ "${OS}" = 'Mac' ]; then
   rm "./icon.icns"
 
 elif [ "${OS}" = 'Linux' ]; then
-  echo 'hoge'
+  echo 'Not Support'
 else
-  echo 'hoge'
+  echo 'Not Support'
 fi
