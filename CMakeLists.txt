@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 2.6)
+cmake_minimum_required (VERSION 3.12.0)
 
 find_package(PkgConfig)
 
@@ -83,17 +83,19 @@ if (APPLE)
   set(PRODUCT_BUNDLE_IDENTIFIER "com.example")
   set(MACOSX_DEPLOYMENT_TARGET "10.14")
 
-  set_source_files_properties(
-    ${PROJECT_SOURCE_DIR}/icon.icns
-    PROPERTIES
-    MACOSX_PACKAGE_LOCATION "Resources"
-    )
+  # リソースの検索
+  file(GLOB_RECURSE RES_SOURCES CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/resources/*")
 
-  add_executable(${MY_PROJECT_NAME} MACOSX_BUNDLE ${SOURCE_FILES} ${PROJECT_SOURCE_DIR}/icon.icns)
+  add_executable(${MY_PROJECT_NAME} MACOSX_BUNDLE ${SOURCE_FILES} ${RES_SOURCES})
 
-  add_custom_command(TARGET ${MY_PROJECT_NAME} PRE_BUILD
-    COMMAND cp -r ${PROJECT_SOURCE_DIR}/engine ${MY_PROJECT_NAME}.app/Contents/Resources
-    )
+  foreach(RES_FILE ${RES_SOURCES})
+    # 親ディレクトリの取得
+    string(REGEX REPLACE "/[^/]+$" "" RES_REG ${RES_FILE})
+    # 相対パスの取得
+    file(RELATIVE_PATH RES_DIR "${PROJECT_SOURCE_DIR}/resources" ${RES_REG})
+    # リソースとして登録
+    set_source_files_properties(${RES_FILE} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources/${RES_DIR}")
+  endforeach(RES_FILE)
 
   set_target_properties(${MY_PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_INFO_PLIST ${PROJECT_SOURCE_DIR}/Info-CMake.plist)
 

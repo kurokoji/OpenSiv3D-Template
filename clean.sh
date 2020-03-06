@@ -12,12 +12,9 @@ fi
 
 
 if [ "${OS}" = 'Mac' ]; then
-  rm "./siv3d_v${CURRENT_VERSION}_macOS.zip"
-  rm -r "./siv3d_v${CURRENT_VERSION}_macOS"
   rm -r "./include"
   rm -r "./lib"
-  rm -r "./engine"
-  rm "./icon.icns"
+  # rm -r "./resources"
 
 elif [ "${OS}" = 'Linux' ]; then
   echo 'Not Support'
