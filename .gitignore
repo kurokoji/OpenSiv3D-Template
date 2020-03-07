@@ -30,3 +30,11 @@
 *.exe
 *.out
 *.app
+
+.DS_Store
+OpenSiv3D-Template/build/
+OpenSiv3D-Template/engine/
+OpenSiv3D-Template/include/
+OpenSiv3D-Template/lib/
+OpenSiv3D-Template/resources/
+.archive
