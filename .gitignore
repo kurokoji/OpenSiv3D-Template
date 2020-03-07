@@ -32,9 +32,9 @@
 *.app
 
 .DS_Store
-/build/
-/engine/
-/include/
-icon.icns
-/lib/
+OpenSiv3D-Template/build/
+OpenSiv3D-Template/engine/
+OpenSiv3D-Template/include/
+OpenSiv3D-Template/lib/
+OpenSiv3D-Template/resources/
 .archive
