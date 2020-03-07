@@ -4,9 +4,9 @@
 
 ## Support Platform
 
-- Windows []
-- macOS [x]
-- Linux []
+- [ ] Windows
+- [x] macOS
+- [ ] Linux
 
 ## Requirements
 
